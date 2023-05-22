@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    hostname: smokey
+    ports:
+      - 3000:3000
+    volumes:
+      - ./config.json:/app/public/config.json

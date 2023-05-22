@@ -1,0 +1,52 @@
+{   
+    "company": {
+        "name": "Company Name",
+        "description": "Company Description",
+        "logo": "https://cdn2.mythicalkitten.com/cat/66cfd674-34a6-4c51-b37d-1abe025a6582.jpg"
+    },
+    "locations": [
+        {
+            "name": "United States",
+            "locations": [
+                {
+                    "name": "Dallas, Texas",
+                    "api": "http://localhost:8080",
+                    "filesUrl": "http://localhost:8080",
+                    "ipv4": "1.0.0.1",
+                    "ipv6": "",
+                    "location": "Dallas, Texas",
+                    "datacenter": "Evocative DA4",
+                    "bgp": true,
+                    "pingtrace": true
+                },
+                {
+                    "name": "New York, New York",
+                    "api": "http://localhost:8081",
+                    "filesUrl": "",
+                    "ipv4": "1.1.1.1",
+                    "ipv6": "2600::",
+                    "location": "New York, New York",
+                    "datacenter": "Evocative CAT1",
+                    "bgp": false,
+                    "pingtrace": true
+                }
+            ]
+        },
+        {
+            "name": "Asia",
+            "locations": [
+                {
+                    "name": "Singapore",
+                    "api": "http://localhost:800",
+                    "filesUrl": "http://localhost:8080",
+                    "ipv4": "1.0.0.1",
+                    "ipv6": "",
+                    "location": "Dallas, Texas",
+                    "datacenter": "Evocative DA4",
+                    "bgp": true,
+                    "pingtrace": false
+                }
+            ]
+        }
+    ]
+}

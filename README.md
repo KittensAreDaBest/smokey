@@ -1,38 +1,87 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Smokey
+The modern looking glass for modern companies
 
-## Getting Started
+## Installation
 
-First, run the development server:
+### Dependencies
+* docker
+* docker-compose
+* a reverse proxy (nginx, caddy)
 
+### Download Files
+copy the docker-compose.example.yml and place in a new directory of your choice on the host machine that you are hosting Smokey on
+
+copy the config.example.json and rename it to config.json
+
+### Configure config.json
+Edit config.json to your liking
+
+API is the api endpoint of your [Caramel instance](https://github.com/kittensaredabest/caramel)
+
+Files URL is the url to the test files which you can create with on the server serving the files (aka the one that would host Caramel)
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+fallocate -l 100M 100M.file
+fallocate -l 1G 1G.file
+fallocate -l 5G 5G.file
+fallocate -l 10G 10G.file
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+If you wish to serve test files then have a webserver serve those files on the /files/ path and then set the Files URL to the domain (ex: https://testfiles.nyc.example.com ), Otherwise leave it blank and it will ignore it
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+bgp: true/false if you want to have bgp route trace in your looking glass (using bird2 in caramel)
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+pingtrace: true/false if you want to have ping/traceroute/mtr in your looking glass (you would only really disable this if you wanted your looking glass only for bgp route trace, same /w caramel)
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+If you leave ipv4, ipv6, location, datacenter as a empty string then in the frontend it will show as Not Set
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+and obv if u want to add more locations / groups then just add more to the array.
 
-## Learn More
+### Docker
+Pull the docker container
+```
+docker compose pull
+```
 
-To learn more about Next.js, take a look at the following resources:
+Start the docker container
+```
+docker compose up -d
+```
+The service will now lisen on port 3000 locally
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Reverse Proxy
 
-## Deploy on Vercel
+#### Nginx
+```
+server {
+    listen 80;
+    listen [::]:80;
+    server_name lg.example.com;
+    return 301 https://$host$request_uri;
+}
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+server {
+    listen [::]:443 ssl;
+    listen 443 ssl;
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log warn;
+
+    ssl_certificate /etc/letsencrypt/live/lg.example.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/lg.example.com/privkey.pem;
+
+    server_name lg.example.com;
+
+    location / {
+        include proxy_params;
+        proxy_pass http://127.0.0.1:3000;
+    }
+}
+```
+
+#### Caddy
+```
+lg.example.com {
+    reverse_proxy localhost:3000
+}
+```
