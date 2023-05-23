@@ -4,53 +4,46 @@ The modern looking glass for modern companies
 ## Installation
 
 ### Dependencies
-* docker
-* docker-compose
-* a reverse proxy (nginx, caddy)
+- docker
+- docker-compose
+- a reverse proxy (nginx, caddy)
 
 ### Download Files
-copy the docker-compose.example.yml and place in a new directory of your choice on the host machine that you are hosting Smokey on
-
-copy the config.example.json and rename it to config.json
+1. Copy the `docker-compose.example.yml` and place it in a new directory of your choice on the host machine where you are hosting Smokey.
+2. Copy the `config.example.json` and rename it to `config.json`.
 
 ### Configure config.json
-Edit config.json to your liking
+Edit `config.json` to your liking.
 
-API is the api endpoint of your [Caramel instance](https://github.com/kittensaredabest/caramel)
-
-Files URL is the url to the test files which you can create with on the server serving the files (aka the one that would host Caramel)
-```bash
-fallocate -l 100M 100M.file
-fallocate -l 1G 1G.file
-fallocate -l 5G 5G.file
-fallocate -l 10G 10G.file
-```
-
-If you wish to serve test files then have a webserver serve those files on the /files/ path and then set the Files URL to the domain (ex: https://testfiles.nyc.example.com ), Otherwise leave it blank and it will ignore it
-
-bgp: true/false if you want to have bgp route trace in your looking glass (using bird2 in caramel)
-
-pingtrace: true/false if you want to have ping/traceroute/mtr in your looking glass (you would only really disable this if you wanted your looking glass only for bgp route trace, same /w caramel)
-
-If you leave ipv4, ipv6, location, datacenter as a empty string then in the frontend it will show as Not Set
-
-and obv if u want to add more locations / groups then just add more to the array.
+- `api` is the API endpoint of your [Caramel instance](https://github.com/kittensaredabest/caramel).
+- `filesUrl` is the URL to the test files, which you can create on the server hosting the files (the one that would host Caramel).
+    ```bash
+    fallocate -l 100M 100M.file
+    fallocate -l 1G 1G.file
+    fallocate -l 5G 5G.file
+    fallocate -l 10G 10G.file
+    ```
+    If you wish to serve test files, have a web server serve those files on the `/files/` path and set the `Files URL` to the domain (e.g., https://lg-nyc-api.example.com ). Otherwise, leave it blank and it will be ignored.
+- `bgp`: `true/false` if you want to have BGP route trace in your looking glass (using bird2 in caramel).
+- `pingtrace`: `true/false` if you want to have ping/traceroute/mtr in your looking glass. You would only disable this if you want your looking glass to only show BGP route trace (same with caramel).
+- If you leave `ipv4`, `ipv6`, `location`, and `datacenter` as empty strings, they will be displayed as "Not Set" in the frontend.
+- You can add more locations/groups by adding more elements to the array.
 
 ### Docker
-Pull the docker container
-```
+Pull the docker container:
+```bash
 docker compose pull
 ```
 
-Start the docker container
-```
+Start the docker container:
+```bash
 docker compose up -d
 ```
-The service will now lisen on port 3000 locally
+The service will now lisen on port 3000 on the host machine.
 
 
 ### Reverse Proxy
-
+Here are some examples of reverse proxy configurations. Although, you can use any reverse proxy you want.
 #### Nginx
 ```
 server {
@@ -76,12 +69,19 @@ server {
         include proxy_params;
         proxy_pass http://127.0.0.1:3000;
     }
+    location /files/ {
+        root /var/www/lg/files;
+    }
 }
 ```
 
 #### Caddy
 ```
 lg.example.com {
+    handle_path /files/* {
+        file_server
+        root * /var/www/lg/files
+    }
     reverse_proxy localhost:3000
 }
 ```
