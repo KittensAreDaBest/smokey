@@ -120,13 +120,13 @@ export default function Home(props: Props) {
               <a href={`${selectedLocation.filesUrl}/files/100M.file`} target='_blank' className='w-full'>
                 <Button variant="outline" className='w-full'>100M Test File</Button>
               </a>
-              <a href={`${selectedLocation.filesUrl}/files/100M.file`} target='_blank' className='w-full'>
+              <a href={`${selectedLocation.filesUrl}/files/1G.file`} target='_blank' className='w-full'>
                 <Button variant="outline" className='w-full'>1GB Test File</Button>
               </a>
-              <a href={`${selectedLocation.filesUrl}/files/100M.file`} target='_blank' className='w-full'>
+              <a href={`${selectedLocation.filesUrl}/files/5G.file`} target='_blank' className='w-full'>
                 <Button variant="outline" className='w-full'>5GB Test File</Button>
               </a>
-              <a href={`${selectedLocation.filesUrl}/files/100M.file`} target='_blank' className='w-full'>
+              <a href={`${selectedLocation.filesUrl}/files/10G.file`} target='_blank' className='w-full'>
                 <Button variant="outline" className='w-full'>10GB Test File</Button>
               </a>
             </div>
