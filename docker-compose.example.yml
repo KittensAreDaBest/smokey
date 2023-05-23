@@ -1,10 +1,8 @@
 version: '3.7'
 
 services:
-  app:
-    build: 
-      context: .
-      dockerfile: Dockerfile
+  smokey:
+    image: ghcr.io/kittensaredabest/smokey:latest
     restart: always
     hostname: smokey
     ports:
