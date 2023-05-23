@@ -2,7 +2,7 @@
     "company": {
         "name": "Company Name",
         "description": "Company Description",
-        "logo": "https://cdn2.mythicalkitten.com/cat/66cfd674-34a6-4c51-b37d-1abe025a6582.jpg"
+        "logo": "https://cdn.kitten.systems/mythicalkitten/logo_with_text.png"
     },
     "locations": [
         {
@@ -26,7 +26,7 @@
                     "ipv4": "1.1.1.1",
                     "ipv6": "2600::",
                     "location": "New York, New York",
-                    "datacenter": "Evocative CAT1",
+                    "datacenter": "Equinix NY9",
                     "bgp": false,
                     "pingtrace": true
                 }
@@ -41,8 +41,8 @@
                     "filesUrl": "http://localhost:8080",
                     "ipv4": "1.0.0.1",
                     "ipv6": "",
-                    "location": "Dallas, Texas",
-                    "datacenter": "Evocative DA4",
+                    "location": "Singapore",
+                    "datacenter": "Racks Central",
                     "bgp": true,
                     "pingtrace": false
                 }
