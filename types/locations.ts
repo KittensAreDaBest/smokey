@@ -1,6 +1,5 @@
 interface Company {
     name: string;
-    description: string;
     logo: string;
 }
 interface LocationChild {

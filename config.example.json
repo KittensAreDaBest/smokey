@@ -1,8 +1,7 @@
 {   
     "company": {
         "name": "Company Name",
-        "description": "Company Description",
-        "logo": "https://cdn.kitten.systems/mythicalkitten/logo_with_text.png"
+        "logo": "https://example.net/logo.png"
     },
     "locations": [
         {
