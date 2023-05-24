@@ -69,19 +69,12 @@ server {
         include proxy_params;
         proxy_pass http://127.0.0.1:3000;
     }
-    location /files/ {
-        root /var/www/lg/files;
-    }
 }
 ```
 
 #### Caddy
 ```
 lg.example.com {
-    handle_path /files/* {
-        file_server
-        root * /var/www/lg/files
-    }
     reverse_proxy localhost:3000
 }
 ```
